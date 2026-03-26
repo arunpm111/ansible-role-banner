@@ -37,7 +37,7 @@
 - name: Configure SSH banner in sshd_config.
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: '^#?Banner'
+    regexp: '^#?Banner\s'
     line: "Banner {{ banner_ssh_banner_path }}"
     state: present
     validate: "sshd -t -f %s"
