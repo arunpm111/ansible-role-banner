@@ -1,0 +1,2 @@
+---
+# OS-family-specific variables are loaded dynamically in tasks/main.yml.

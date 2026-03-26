@@ -1,0 +1,45 @@
+---
+- name: Load OS-specific variables.
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family }}.yml"
+    - main.yml
+  tags:
+    - always
+
+- name: Deploy /etc/motd banner.
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+  when: banner_motd_manage | bool
+
+- name: Deploy /etc/issue banner.
+  ansible.builtin.template:
+    src: issue.j2
+    dest: /etc/issue
+    owner: root
+    group: root
+    mode: "0644"
+  when: banner_issue_manage | bool
+
+- name: Deploy /etc/issue.net banner.
+  ansible.builtin.template:
+    src: issue.net.j2
+    dest: /etc/issue.net
+    owner: root
+    group: root
+    mode: "0644"
+  when: banner_issue_net_manage | bool
+
+- name: Configure SSH banner in sshd_config.
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?Banner'
+    line: "Banner {{ banner_ssh_banner_path }}"
+    state: present
+    validate: "sshd -t -f %s"
+  notify: Restart ssh
+  when: banner_ssh_configure | bool

@@ -1,0 +1,30 @@
+---
+# Banner content for /etc/motd (Message of the Day - shown after login).
+banner_motd: ""
+
+# Banner content for /etc/issue (pre-login banner for local terminals).
+banner_issue: ""
+
+# Banner content for /etc/issue.net (pre-login banner for network logins).
+banner_issue_net: ""
+
+# Whether to manage /etc/motd.
+banner_motd_manage: true
+
+# Whether to manage /etc/issue.
+banner_issue_manage: true
+
+# Whether to manage /etc/issue.net.
+banner_issue_net_manage: true
+
+# Whether to configure SSH to display a banner before authentication.
+banner_ssh_configure: true
+
+# Path to the SSH banner file (used in sshd_config Banner directive).
+banner_ssh_banner_path: /etc/issue.net
+
+# Whether to manage the SSH service (restart on config changes).
+banner_service_manage: true
+
+# Desired state for the SSH service when restarted by a handler.
+banner_restart_handler_state: restarted

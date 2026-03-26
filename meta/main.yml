@@ -1,0 +1,39 @@
+---
+galaxy_info:
+  author: arunpm111
+  description: Ansible role to manage Linux login banners (motd, issue, issue.net).
+  license: MIT
+
+  min_ansible_version: "2.12"
+
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - noble
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+    - name: Fedora
+      versions:
+        - all
+    - name: opensuse
+      versions:
+        - all
+
+  galaxy_tags:
+    - system
+    - security
+    - banner
+    - motd
+    - ssh
+    - login
+    - linux
+
+dependencies: []

@@ -1,0 +1,75 @@
+---
+- name: Verify
+  hosts: all
+
+  tasks:
+    - name: Check /etc/motd exists.
+      ansible.builtin.stat:
+        path: /etc/motd
+      register: motd_stat
+
+    - name: Assert /etc/motd exists.
+      ansible.builtin.assert:
+        that:
+          - motd_stat.stat.exists
+
+    - name: Read /etc/motd content.
+      ansible.builtin.slurp:
+        src: /etc/motd
+      register: motd_content
+
+    - name: Assert /etc/motd contains expected banner.
+      ansible.builtin.assert:
+        that:
+          - "'Welcome to the managed server' in motd_content.content | b64decode"
+
+    - name: Check /etc/issue exists.
+      ansible.builtin.stat:
+        path: /etc/issue
+      register: issue_stat
+
+    - name: Assert /etc/issue exists.
+      ansible.builtin.assert:
+        that:
+          - issue_stat.stat.exists
+
+    - name: Read /etc/issue content.
+      ansible.builtin.slurp:
+        src: /etc/issue
+      register: issue_content
+
+    - name: Assert /etc/issue contains expected banner.
+      ansible.builtin.assert:
+        that:
+          - "'Authorized access only' in issue_content.content | b64decode"
+
+    - name: Check /etc/issue.net exists.
+      ansible.builtin.stat:
+        path: /etc/issue.net
+      register: issue_net_stat
+
+    - name: Assert /etc/issue.net exists.
+      ansible.builtin.assert:
+        that:
+          - issue_net_stat.stat.exists
+
+    - name: Read /etc/issue.net content.
+      ansible.builtin.slurp:
+        src: /etc/issue.net
+      register: issue_net_content
+
+    - name: Assert /etc/issue.net contains expected banner.
+      ansible.builtin.assert:
+        that:
+          - "'All activity is monitored and recorded' in issue_net_content.content | b64decode"
+
+    - name: Check sshd_config for Banner directive.
+      ansible.builtin.command:
+        cmd: grep -E '^Banner' /etc/ssh/sshd_config
+      register: sshd_banner
+      changed_when: false
+
+    - name: Assert SSH Banner is configured.
+      ansible.builtin.assert:
+        that:
+          - "'Banner /etc/issue.net' in sshd_banner.stdout"
