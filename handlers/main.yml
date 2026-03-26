@@ -1,0 +1,7 @@
+---
+- name: Restart ssh
+  ansible.builtin.service:
+    name: "{{ banner_ssh_service_name }}"
+    state: "{{ banner_restart_handler_state }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+  when: banner_service_manage | bool
